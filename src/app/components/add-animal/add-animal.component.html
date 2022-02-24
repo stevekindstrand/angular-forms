@@ -1,63 +1,25 @@
-<!-- FormControl -->
-<div class="one">
-    <label for="name">Name: </label>
-    <input type="text" [formControl]="name" />
-    <button (click)="changeName()">Change Name</button>
-
-    <label for="type">Type: </label>
-    <input type="text" [formControl]="type" />
-
-    <label for="description">Description: </label>
-    <input type="text" [formControl]="description" />
-
-    <p>
-        {{ name.value }}
-        {{ type.value }}
-        {{ description.value }}
-    </p>
-</div>
-<hr>
-
-<!-- FormGroup -->
-<div>
-    <form [formGroup]="userFormGroup" (ngSubmit)="onSubmit()">
-        <label>Name: </label>
-        <input type="text" formControlName="name" />
-    
-        <label>Type: </label>
-        <input type="text" formControlName="type" />
-    
-        <label>Description: </label>
-        <input type="text" formControlName="description" />
-    
-        <button type="submit">Submit</button>
-    </form>
-
-    <p>
-        {{ userFormGroup.value | json }}
-    </p>
-</div>
-<hr>
-
-<!-- FormBuilder -->
 <div>
     <form [formGroup]="userFormBuilder" (ngSubmit)="onSubmit()">
-        <label>Name: </label>
-        <input type="text" formControlName="name" />
+        <input type="text" placeholder="Name" formControlName="name" /><br>
+        <div *ngIf="userFormBuilder.get('name')?.touched && userFormBuilder.get('name')?.invalid">
+            <div *ngIf="name?.errors?.['required']">
+                "name" is required.
+            </div>
+            <div *ngIf="name?.errors?.['minlength']">
+                "name" requires atleast 3 characters.
+            </div>
+        </div>
+
+        <input type="text" placeholder="Type" formControlName="type" /><br>
     
-        <label>Type: </label>
-        <input type="text" formControlName="type" />
-    
-        <label>Description: </label>
-        <input type="text" formControlName="description" />
+        <input type="text" placeholder="Description" formControlName="description" />
     
         <div formArrayName="nicknames">
             <div *ngFor="let x of nicknames.controls; let i = index">
-                <label>Nickname: </label>
-                <input type="text" [formControlName]="i" />
+                <input type="text" placeholder="Nickname" [formControlName]="i" />
                 <button (click)="addNickname()">Add nickname</button>
             </div>
-        </div>
+        </div><br>
     
         <button type="submit" [disabled]="!userFormBuilder.valid">Submit</button>
     </form>
@@ -66,4 +28,3 @@
         {{ userFormBuilder.value | json }}
     </p>
 </div>
-<hr>

@@ -7,25 +7,8 @@ import {  FormControl, FormGroup, FormBuilder, Validators, FormArray } from '@an
   styleUrls: ['./add-animal.component.scss']
 })
 export class AddAnimalComponent implements OnInit {
-  //FormControl  
-  name = new FormControl('');
-  type = new FormControl('');
-  description = new FormControl('');
-
-  changeName() {
-    this.name.setValue('Steve');
-  }
-
-  //FormGroup
-  userFormGroup = new FormGroup({
-    name: new FormControl(''),
-    type: new FormControl(''),
-    description: new FormControl('')
-  });
-
-  //FormBuilder
   userFormBuilder = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
+    name: ['', [Validators.required, Validators.minLength(3)]],
     type: [''],
     description: [''],
     nicknames: this.fb.array([this.fb.control('')])
@@ -43,6 +26,10 @@ export class AddAnimalComponent implements OnInit {
 
   onSubmit() {
     console.log(this.userFormBuilder.value);
+  }
+
+  get name() {
+    return this.userFormBuilder.get('name');
   }
 
   ngOnInit(): void {
